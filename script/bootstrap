@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+function bootstrap {
+  local shome="$(cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"
+  source "$shome/script/profile"
+
+  git clone git@github.com:dtrace4linux/linux "$shome/vendor/dtrace" || true
+  cd "$shome/vendor/dtrace"
+
+  case "$(uname -s)" in
+    Linux)
+      env DEBIAN_FRONTEND=noninteractive tools/get-deps.pl
+      make all
+      sudo make install
+      make load
+      dtrace -l | wc -l
+      ;;
+  esac
+}
+
+bootstrap
