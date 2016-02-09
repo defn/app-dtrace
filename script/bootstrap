@@ -9,7 +9,7 @@ function bootstrap {
 
   case "$(uname -s)" in
     Linux)
-      env DEBIAN_FRONTEND=noninteractive tools/get-deps.pl
+      env DEBIAN_FRONTEND=noninteractive tools/get-deps.pl -y
       make all
       sudo make install
       make load
