@@ -4,6 +4,10 @@ function main {
   local shome="$(cd -P -- "${BASH_SOURCE%/*}/.." && pwd -P)"
   source "$shome/script/profile"
 
+  if [[ "$(facts -r '.virtualization_type')" == 'docker' ]]; then
+    return 1
+  fi
+
   if [[ -x "$(type -P dtrace)" ]]; then
     return 1
   else
